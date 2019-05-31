@@ -1,8 +1,19 @@
 """
-Has 3 outward facing functions that return the respective data, with meta-data pre-processed
-- get_train()
-- get_valid()
-- get_test()
+reusage:
+from setup import get_train6
+train = get_train6()
+#now we can use train as normal
+
+---------
+
+Has 6 outward facing functions that return the respective data, with meta-data pre-processed
+- get_train3()
+- get_valid3()
+- get_test3()
+
+- get_train6()
+- get_valid6()
+- get_test6()
 """
 
 import pandas as pd
@@ -107,22 +118,23 @@ def set_header(df):
     df.columns = HEADER
 
 def preprocess(df):
+    set_header(df)
     set_labels(df)
     set_party(df)
     append_lying_ratio(df)
     append_ratio_significance(df)
 
-def get_train():
+def get_train3():
     train = pd.read_csv('data/train.csv', header=None)
     preprocess(train)
     return train
 
-def get_valid():
+def get_valid3():
     valid = pd.read_csv('data/valid.csv', header=None)
     preprocess(valid)
     return valid
 
-def get_test():
+def get_test3():
     test = pd.read_csv('data/test.csv', header=None)
     preprocess(test)
     return test

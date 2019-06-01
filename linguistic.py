@@ -1,6 +1,13 @@
+"""
+usage:
+from linguistic import append_linguistic
+append_linguistic(train)
+
+#train should now have linguistic appended
+"""
+
 def possessive_pronouns(sentence):
-    #need to parse things like "theyre"
-    l = ["i", "me", "my", "mine", "we", "us", "our", "ours"] 
+    l = ["i", "me", "my", "mine", "we", "us", "our", "ours"]
     count = 0
     for w in sentence.split(' '):
         if w in l:
@@ -8,6 +15,7 @@ def possessive_pronouns(sentence):
     return count
 
 def thirdperson_pronouns(sentence):
+    #shoudl work for "they're really powerful"
     l = ["he", "him", "his", "her", "hers", "they", "them", "their", "theirs"]
     count = 0
     for w in sentence.split(' '):
@@ -38,6 +46,6 @@ def append_linguistic_general(df, f, name):
     df[name] = counts
 
 def apppend_linguistic(df):
-    append_linguistic(df, possessive_pronouns, 'possessive')
-    append_linguistic(df, negations, 'negations')
-    append_linguistic(df, cognitive_complexity, 'complexity')
+    append_linguistic_general(df, possessive_pronouns, 'possessive')
+    append_linguistic_general(df, negations, 'negations')
+    append_linguistic_general(df, cognitive_complexity, 'complexity')

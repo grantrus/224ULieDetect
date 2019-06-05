@@ -1,6 +1,7 @@
 """
 returns a multiclass one hot encoding for the subject's of train, valid, and test
 
+
 outward facing functions:
 get_subject_train()
 get_subject_valid()
@@ -19,7 +20,7 @@ test = get_test(6)
 
 #internal methods
 def _get_classes(col):
-    return list({i.strip().lower() for s in col for i in s.split(',')})
+    return list({i.strip().lower() for s in col if type(s) is not float for i in s.split(',') })
 
 def _get_list(col):
     total = [[] for i in range(len(col))]
@@ -31,7 +32,7 @@ def _get_list(col):
     return total
 
 #initialize by fitting the encoder to train)
-classes = list(_get_classes(train.subject))
+classes = _get_classes(train.subject)
 enc = MultiLabelBinarizer(classes=classes)
 processed_train = _get_list(train.subject)
 enc.fit(processed_train)

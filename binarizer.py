@@ -6,7 +6,7 @@ outward facing functions:
 get_one_hot()
 
 options:
-"state info" "subject"
+"state info" "subject" "speaker"
 
 """
 
@@ -32,7 +32,7 @@ def _get_list(col):
         total[idx] = features
     return total
 
-def get_one_hot(col):
+def get_binarizer(col):
     classes = _get_classes(train[col])
     processed_train = _get_list(train[col])
     enc = MultiLabelBinarizer(classes=classes)
@@ -45,7 +45,7 @@ def get_one_hot(col):
 
 
 if __name__ == "__main__":
-    out_train, out_valid, out_test = get_encodings('state info')
+    out_train, out_valid, out_test = get_binarizer('speaker')
     print("subjects one hot encoding's shape: " + str(out_train.shape))
 #     out_train, out_valid, out_test = get_encodings('venue')
 #     print("venue's train one hot encoding's shape: " + str(out_train.shape))

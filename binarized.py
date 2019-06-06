@@ -11,6 +11,7 @@ recommended options for column name:
 
 import numpy as np
 from sklearn.preprocessing import MultiLabelBinarizer
+from collections import Counter
 
 from setup import get_train, get_valid, get_test
 
@@ -31,8 +32,22 @@ def _get_list(col):
         total[idx] = features
     return total
 
-def get_binarized(col, num_classes):
-    classes = _get_classes(train[col])[:num_classes]
+def get_most_common(col, num_classes):
+    job = col
+    total = []
+    for j in job:
+        if type(j) is not float:
+            total.append(j.strip())
+    c = Counter(total)
+    most = c.most_common(num_classes)
+    return [m[0] for m in most]
+
+
+def get_binarized(col, num_classes=None):
+    if num_classes: #limit the amount of classes to a certain amount
+        classes = get_most_common(train[col], num_classes)
+    else:
+        classes = _get_classes(train[col])
     processed_train = _get_list(train[col])
     enc = MultiLabelBinarizer(classes=classes)
 

@@ -1,15 +1,13 @@
 """
-Gets sentence-level embeddings for the speaker's jobs and venue by averaging word-by-word GloveEmbeddings.
+Gets sentence-level embeddings by averaging word-by-word GloveEmbeddings.
 
-outward facing functions:
-get_glove()
-
+main outward facing function:
+get_embeddings() takes in one argument which is a column name
 returns ndarray of shape is (num sentences, embedding size)
 
 Can modify size of the glove embedding size. Options are {50, 100, 200, 300}. Default is 50
 
----
-Options are "speaker's job" and "venue"
+Best options are "speaker's job" and "venue"
 
 TODO: experiment with tf-idf weighting of glove embeddings
 """
@@ -43,7 +41,7 @@ def get_most_common(col):
     most = c.most_common()
     return most
 
-def get_embeddings(col):
+def get_glove(col):
     total = []
     for idx, s in enumerate(col):
         avg = np.zeros((1, GLOVE_SHAPE)) #initialize avg
@@ -63,8 +61,7 @@ def get_embeddings(col):
 
     return np.concatenate(total, axis = 0)
 
-def get_glove(col):
-    #options are "speaker's job" and "venue"
-    return (get_embeddings(train[col]), 
-            get_embeddings(valid[col]), 
-            get_embeddings(test[col]))
+def get_embeddings(col):
+    return (get_glove(train[col]),
+            get_glove(valid[col]),
+            get_glove(test[col]))

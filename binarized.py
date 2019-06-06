@@ -1,13 +1,12 @@
 """
-returns a multiclass one hot encoding for the subject's of train, valid, and test
+returns a multiclass binarized encoding of a column given its name
 
+main outward facing functions:
+get_binarized() takes in a column name
+returns ndarray of shape (#examples, #classes)
 
-outward facing functions:
-get_one_hot()
-
-options:
+recommended options for column name:
 "state info" "subject" "speaker"
-
 """
 
 import numpy as np
@@ -32,7 +31,7 @@ def _get_list(col):
         total[idx] = features
     return total
 
-def get_binarizer(col):
+def get_binarized(col):
     classes = _get_classes(train[col])
     processed_train = _get_list(train[col])
     enc = MultiLabelBinarizer(classes=classes)
@@ -40,14 +39,6 @@ def get_binarizer(col):
     out_train = enc.fit_transform(processed_train)
     out_valid = enc.transform(_get_list(valid[col]))
     out_test  = enc.transform(_get_list(test[col]))
-    
+
     return out_train, out_valid, out_test
-
-
-if __name__ == "__main__":
-    out_train, out_valid, out_test = get_binarizer('speaker')
-    print("subjects one hot encoding's shape: " + str(out_train.shape))
-#     out_train, out_valid, out_test = get_encodings('venue')
-#     print("venue's train one hot encoding's shape: " + str(out_train.shape))
-
 

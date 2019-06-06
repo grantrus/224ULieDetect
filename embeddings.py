@@ -31,6 +31,16 @@ import utils
 GLOVE_HOME = os.path.join('..','data', 'glove.6B')
 glove = utils.glove2dict(os.path.join(GLOVE_HOME, 'glove.6B.' + str(GLOVE_SHAPE) + 'd.txt'))
 
+def analyze(col):
+    #takes in a column and spits out an analysis of the things in the counts of things in column
+    total = []
+    for s in col:
+        if type(s) is not float:
+            total += [i.strip().lower() for i in s.split(',')]
+    c = Counter(total)
+    most = c.most_common()
+    return most
+
 def get_most_common(col):
     job = col
     total = []

@@ -31,8 +31,8 @@ def _get_list(col):
         total[idx] = features
     return total
 
-def get_binarized(col):
-    classes = _get_classes(train[col])
+def get_binarized(col, num_classes):
+    classes = _get_classes(train[col])[:num_classes]
     processed_train = _get_list(train[col])
     enc = MultiLabelBinarizer(classes=classes)
 

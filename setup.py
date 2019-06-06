@@ -161,3 +161,6 @@ def append_ratio_significance(df):
 def set_header(df):
     HEADER = ["ID", "label", "statement", "subject", "speaker", "speaker's job", "state info", "party", "barely true counts", "false counts", "half true counts", "mostly true counts", "pants on fire counts", "venue"]
     df.columns = HEADER
+
+if __name__ == "__main__":
+    print('shape of training data is: ' + str(get_train(6).shape))

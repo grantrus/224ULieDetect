@@ -14,6 +14,12 @@ Has 3 outward facing functions that all take 2, 3, 6 as input (amount of labels)
 
 import pandas as pd
 
+def get_data(num_labels=6):
+    train = get_train(num_labels)
+    valid = get_valid(num_labels)
+    test  = get_test(num_labels)
+    return train, valid, test
+
 def preprocess(df, num_labels):
     set_header(df)
     set_labels(df, num_labels)

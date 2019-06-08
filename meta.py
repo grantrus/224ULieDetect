@@ -13,7 +13,7 @@ def get_numerical(col):
     a2 = np.array( test[col]).reshape(-1, 1)
     return [a0, a1, a2]
 
-def get_meta(most_common=500):
+def get_meta(sep=False, most_common=500):
     state   = get_binarized('state info')
     subject = get_binarized('subject')
     speaker = get_binarized('speaker', most_common)
@@ -26,8 +26,15 @@ def get_meta(most_common=500):
 
     combined = [state, subject, speaker, job, venue, ratio, sig]
 
-    meta_train = np.concatenate([i[0] for i in combined], axis=1)
-    meta_valid = np.concatenate([i[1] for i in combined], axis=1)
-    meta_test  = np.concatenate([i[2] for i in combined], axis=1)
+    comb_train = [i[0] for i in combined]
+    comb_valid = [i[1] for i in combined]
+    comb_test  = [i[2] for i in combined]
+
+    if sep:
+        return comb_train, comb_valid, comb_test
+
+    meta_train = np.concatenate(comb_train, axis=1)
+    meta_valid = np.concatenate(comb_valid, axis=1)
+    meta_test  = np.concatenate(comb_test, axis=1)
 
     return meta_train, meta_valid, meta_test

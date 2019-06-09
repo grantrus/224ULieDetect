@@ -24,8 +24,8 @@ def preprocess(df, num_labels):
     set_header(df)
     set_labels(df, num_labels)
     set_party(df)
-    append_lying_ratio(df)
-    append_ratio_significance(df)
+    # append_lying_ratio(df)
+    # append_ratio_significance(df)
 
 def get_train(num_labels):
     train = pd.read_csv('data/train.csv', header=None)

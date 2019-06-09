@@ -12,9 +12,9 @@ from keras.layers import Dense, GlobalAveragePooling1D, Dropout, Embedding, MaxP
 num_labels = int(sys.argv[1])
 
 #Get Embeddings from BERT
-train_bert = np.load('data/X_bert_train_mean.npy')
-test_bert = np.load('data/X_bert_test_mean.npy')
-valid_bert = np.load('data/X_bert_valid_mean.npy')
+train_bert = np.load('data/X_bert_train.npy')
+test_bert = np.load('data/X_bert_test.npy')
+valid_bert = np.load('data/X_bert_valid.npy')
 
 #Get unaltered data which contains labels for each example.
 train_data, valid_data, test_data = get_data(num_labels)
@@ -24,20 +24,20 @@ meta_train, meta_valid, meta_test = get_meta(True, 100)
 
 print(train_bert.shape)
 
-train_all = np.concatenate((train_bert, meta_train[1]), axis=1)
-test_all = np.concatenate((test_bert, meta_test[1]), axis=1)
-valid_all = np.concatenate((valid_bert, meta_valid[1]), axis=1)
+#train_all = np.concatenate((train_bert, meta_train[1]), axis=1)
+#test_all = np.concatenate((test_bert, meta_test[1]), axis=1)
+#valid_all = np.concatenate((valid_bert, meta_valid[1]), axis=1)
 
-num_dims = train_all.shape[1]
-print("Train Shape: ", train_all.shape)
-print(test_all.shape)
+#num_dims = train_all.shape[1]
+#print("Train Shape: ", train_all.shape)
+#print(test_all.shape)
 
 
 model = Sequential()
 seq_length = 64
 
 model = Sequential()
-model.add(Conv1D(64, 3, activation='relu', input_shape=(60, 768)))
+model.add(Conv1D(64, 3, activation='relu', input_shape=(85, 768)))
 model.add(Conv1D(64, 3, activation='relu'))
 model.add(MaxPooling1D(3))
 model.add(Conv1D(128, 3, activation='relu'))

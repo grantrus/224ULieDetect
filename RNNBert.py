@@ -5,11 +5,14 @@ import sys
 import numpy as np
 import tensorflow as tf
 from keras.callbacks import ModelCheckpoint
-from keras.models import Sequential
+from keras.models import Sequential, load_model
 from keras.layers import Dense, Activation, LSTM, Dropout, TimeDistributed, Embedding, SpatialDropout1D, Input, Bidirectional
 
 train_bert = np.load('data/X_bert_train_mean.npy')
 test_bert = np.load('data/X_bert_test_mean.npy')
+test_bert = np.load('data/X_bert_valid_mean.npy')
+
+
 print(np.shape(train_bert))
 num_labels = int(sys.argv[1])
 
@@ -18,7 +21,7 @@ test_data = get_test(num_labels)
 print(train_bert.shape)
 #print(train_bert[0])
 
-MAXLEN = 876
+MAXLEN = 768
 print(train_bert[0])
 
 abs_min = float('inf')
@@ -45,12 +48,24 @@ for i in range(train_bert.shape[0]):
 print(train_bert[0])
 np.save('data/X_bert_train_pos.npy', train_bert)
 np.save('data/X_bert_test_pos.npy', train_bert)
+'''
+model = load_model('models/model-02.hdf5')
+score, acc = model.evaluate(train_bert, train_data.label,
+                            batch_size=32)
+print('Test score:', score)
+print('Test accuracy:', acc)
 
+'''
 model = Sequential()
-model.add(Embedding(30523, 100, input_length=768))
+model.add(Embedding(60, 50, input_length=768))
 model.add(SpatialDropout1D(0.2))
+model.add(LSTM(64, dropout=0.2, recurrent_dropout=0.2, return_sequences=True))
+model.add(Dense(64, name='FC1', activation='relu'))
 model.add(LSTM(64, dropout=0.2, recurrent_dropout=0.2))
+model.add(Dense(32, activation='relu'))
 model.add(Dense(num_labels, activation='softmax'))
+
+
 
 #checkpointer = ModelCheckpoint(filepath=data_path + '/model-{epoch:02d}.hdf5', verbose=1)
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -61,12 +76,10 @@ history = model.fit(train_bert, train_data.label, epochs=5, batch_size=8, valida
 
 '''
 model = Sequential()
-model.add(Embedding(30523, 50, input_length=768))
+model.add(Embedding(30523, 100, input_length=768))
 model.add(SpatialDropout1D(0.2))
-model.add(LSTM(64, dropout=0.2, recurrent_dropout=0.2, return_sequences=True))
-model.add(Dense(64, name='FC1', activation='relu'))
 model.add(LSTM(64, dropout=0.2, recurrent_dropout=0.2))
-model.add(Dense(32, activation='relu'))
+model.add(Dense(32, name='FC1', activation='relu'))
 model.add(Dense(num_labels, activation='softmax'))
 
 '''

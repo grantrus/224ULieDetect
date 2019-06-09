@@ -27,13 +27,13 @@ X_test = vectorizer.transform(test_s)
 
 print(X_train.shape)
 model = Sequential()
-model.add(Embedding(1000, 100, input_length=X_train.shape[1]))
+model.add(Embedding(1000, 50, input_length=X_train.shape[1]))
 model.add(SpatialDropout1D(0.2))
-model.add(LSTM(100, dropout=0.2, recurrent_dropout=0.2))
+model.add(LSTM(64, dropout=0.2, recurrent_dropout=0.2))
 model.add(Dense(num_labels, activation='softmax'))
 
 #checkpointer = ModelCheckpoint(filepath=data_path + '/model-{epoch:02d}.hdf5', verbose=1)
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 print(model.summary())
 
-history = model.fit(X_train, train_data.label, epochs=5, batch_size=16,validation_data=(X_test, test_data.label))
+history = model.fit(X_train, train_data.label, epochs=5, batch_size=8,validation_data=(X_test, test_data.label))

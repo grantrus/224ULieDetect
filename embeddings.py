@@ -8,8 +8,6 @@ returns ndarray of shape is (num sentences, embedding size)
 Can modify size of the glove embedding size. Options are {50, 100, 200, 300}. Default is 50
 
 Best options are "speaker's job" and "venue"
-
-TODO: experiment with tf-idf weighting of glove embeddings
 """
 
 from collections import Counter
